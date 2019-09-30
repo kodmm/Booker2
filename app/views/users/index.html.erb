@@ -1,0 +1,73 @@
+<div class="row">
+	     
+         <% if @book.errors.any? %>
+          <div id="error_explanation" class="alert alert-danger">
+            <ul>
+              <% @book.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+         <% end %>
+         
+				<div class="col-xs-3">
+					<h2>User info</h2>
+					<table class="table table-hover table-inverse">
+						<tr><%= attachment_image_tag @user, :profile_image, :fill, 60, 60, format: 'jpeg', class: "img-circle pull-left profile-img", fallback:"no_image.jpg" %></tr> 
+						<tr>
+							<th>name</th>
+							<th><%= current_user.name %></th>
+						</tr>
+						<tr>
+							<th>introduction</th>
+							<th><%= current_user.introduction %></th>
+						</tr>
+					</table>
+					<div class="row">
+						<% if @user == current_user %>
+						<%= link_to edit_user_path(@user) do %>
+						<span class="col-xs-12 btn btn-defaut glyphicon glyphicon-asterisk" aria-hidden="true"></span>
+						<% end %>
+						<% else %>
+						<%= link_to user_path(current_user.id) do %>
+						<span class="col-xs-12 btn btn-defaut glyphicon glyphicon-asterisk" aria-hidden="true"></span>
+						<% end %>
+					
+						<% end %>
+					</div>
+					<h2>New Book</h2>
+					<%= form_for @book do |f| %>
+						<h4>Title</h4>
+						<%= f.text_field :title %>
+						<h4>Body</h4>
+						<%= f.text_area :body %>
+						<%= f.submit 'Creat Book' %>
+					<% end %>
+				</div>
+				<div class="col-xs-9">
+					<% if flash[:notice] %>
+					<p><%= flash[:notice] %></p>
+					<% end %>
+					<h2>Users</h2>
+					<table class="table table-hover table-inverse">
+						<tr>
+							
+							<th>image</th>
+							<th>name</th>
+							<th></th>
+						</tr>
+						<tbody>
+							<% @users.each do |user| %>
+							<tr>
+								<td><%= attachment_image_tag user, :profile_image, :fill, 40, 40, format: 'jpeg', class: " pull-left ", fallback:"no_image.jpg", size:'40x40'%></td>
+								
+								<td><%=  user.name %></td>
+								<td><%= link_to "show", user_path(user)%></td>
+							</tr>
+							
+							<% end %>
+							
+						</tbody>
+					</table>
+				</div>
+</div>
